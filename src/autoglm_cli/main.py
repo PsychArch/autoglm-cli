@@ -196,15 +196,13 @@ def task(
         console.print(response)
 
         # Check if task is completed
-        if "任务已完成" in response:
-            task_completed = True
-            return
-
-        # Check if take_over is requested
         if data.get("msg_type") == "server_task":
             agent_data = data.get("data", {}).get("data_agent", {})
             action = agent_data.get("action", "")
-            if action == "take_over":
+            if action == "finish":
+                task_completed = True
+                return
+            elif action == "take_over":
                 take_over_requested = True
 
     console.print("🔗 正在连接 AutoGLM API...")
